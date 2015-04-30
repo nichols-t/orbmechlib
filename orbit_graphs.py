@@ -4,7 +4,9 @@ import math
 
 
 def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_periapsis = 0, xbounds = (-100, 100) , ybounds = (-100, 100)):
-    
+    """
+    Graphs an elliptical orbit and a spherical planetary body from semi-major axis, eccentricity, and the argument of periapsis
+    """
     #calculate the argument of periapsis in radians
     arg_peri_rad = math.radians(arg_periapsis)
     
@@ -37,3 +39,6 @@ def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_per
     ax.add_patch(orbit)
     ax.set_xlim(xbounds[0], xbounds[1])
     ax.set_ylim(ybounds[0], ybounds[1])
+
+    """
+    """
