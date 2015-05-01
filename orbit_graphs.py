@@ -3,7 +3,7 @@ from matplotlib.patches import Ellipse, Circle
 import math
 
 #the graviational constant. Note this is in km3 to facilitate the calculation of the standard gravitational parameter
-G = 0.00000000000667384
+G = 0.0000000000667384
 
 def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_periapsis = 0, xbounds = (-100, 100) , ybounds = (-100, 100)):
     """
