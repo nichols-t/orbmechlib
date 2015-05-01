@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse, Circle
 import math
 
+#the graviational constant. Note this is in km3 to facilitate the calculation of the standard gravitational parameter
+G = 0.00000000000667384
 
 def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_periapsis = 0, xbounds = (-100, 100) , ybounds = (-100, 100)):
     """
@@ -40,5 +42,34 @@ def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_per
     ax.set_xlim(xbounds[0], xbounds[1])
     ax.set_ylim(ybounds[0], ybounds[1])
 
+def compute_orbital_properties(semi_majaxis = 35):
     """
+    Computes many properties of an orbit based on the six orbital elements and properties of the planetary body
     """
+    
+def compute_std_grav_param(body_mass = 10):
+    """
+    Compute the standard gravitational parameter by using G as defined above and the mass of the body in kg
+    """
+    
+    #set the body's mass to a global variable
+    global M
+    M = body_mass
+    
+    #define the standard gravitational parameter as a global variable for use in the other functions
+    global mu
+    mu = G * body_mass
+    
+    #print mu
+    print 'The standard gravitational parameter is: ', mu
+    
+    
+def compute_orbital_period(semi_majaxis = 35):
+    """
+    Computes the period of a circular or elliptical orbit given the semi-major axis and the mass of the planetary body
+    """
+    
+    #compute the orbital formula
+    orbital_period = 2 * math.pi * math.sqrt(semi_majaxis**3 / mu)
+    
+    print orbital_period, ' seconds'
