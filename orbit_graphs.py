@@ -42,12 +42,27 @@ def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_per
     ax.set_xlim(xbounds[0], xbounds[1])
     ax.set_ylim(ybounds[0], ybounds[1])
 
-def compute_orbital_properties(semi_majaxis = 35):
+def compute_orbital_properties(body_mass, semi_majaxis, orbital_eccentricity):
     """
     Computes many properties of an orbit based on the six orbital elements and properties of the planetary body
     """
     
-def compute_std_grav_param(body_mass = 10):
+    #define the orbital elements as global variables
+    global M, mu, a, e
+    M = body_mass
+    a = semi_majaxis
+    e = orbital_eccentricity
+    
+    #compute mu for the body's mass
+    compute_std_grav_param(M)
+    
+    #compute the orbital period
+    compute_orbital_period(a)
+    
+    #compute the radii of the apoapsis and periapsis
+    compute_apsides()
+    
+def compute_std_grav_param(body_mass):
     """
     Compute the standard gravitational parameter by using G as defined above and the mass of the body in kg
     """
@@ -64,12 +79,24 @@ def compute_std_grav_param(body_mass = 10):
     print 'The standard gravitational parameter is: ', mu
     
     
-def compute_orbital_period(semi_majaxis = 35):
+def compute_orbital_period(semi_majaxis):
     """
-    Computes the period of a circular or elliptical orbit given the semi-major axis and the mass of the planetary body
+    Computes the period of a circular or elliptical orbit given the semi-major axis in meters and the mass of the planetary body
     """
     
     #compute the orbital formula
+    global orbital_period
     orbital_period = 2 * math.pi * math.sqrt(semi_majaxis**3 / mu)
     
     print orbital_period, ' seconds'
+    
+def compute_apsides():
+    """
+    calculates the radii of the apsides based upon the other orbital quantities
+    """
+    global Ra, Rp
+    Ra = a * (1 + e)
+    Rp = a * (1 - e)
+    
+    print 'The radius of the apoapsis is: ', Ra
+    print 'The radius of the periapsis is: ', Rp
