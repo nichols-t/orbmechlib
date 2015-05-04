@@ -60,7 +60,7 @@ def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_per
     ax.set_xlim(xbounds[0], xbounds[1])
     ax.set_ylim(ybounds[0], ybounds[1])
 
-def compute_orbital_properties(semi_majaxis, orbital_eccentricity):
+def compute_orbital_properties(semi_majaxis, orbital_eccentricity, body_radius):
     """
     Computes many properties of an orbit based on the six orbital elements and properties of the planetary body
     """
@@ -78,6 +78,9 @@ def compute_orbital_properties(semi_majaxis, orbital_eccentricity):
     
     #compute the radii of the apoapsis and periapsis and the velocities at each
     compute_apsides()
+    
+    #graph the orbit
+    graph_orbit(body_radius, a, e, 0, (-2 * Ra, 2 * Ra), (-2 * Ra, 2 * Ra))
     
 def compute_std_grav_param():
     """
