@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse, Circle
+#!/usr/bin/python
+import orbit_graphing as orbg
 import math
 
 def open_config(config_file):
@@ -13,10 +13,11 @@ def open_config(config_file):
     config_values = config.read().split(',')
     
     #declare the global constants and set them equal to the values in the config file
-    global G, M
+    global G, M, body_radius
     
     G = float(config_values[1])
     M = float(config_values[3])
+    body_radius = float(config_values[5])
     
     #compute mu for the body's mass
     compute_std_grav_param()
@@ -25,45 +26,9 @@ def open_config(config_file):
     print G, ' is the gravitational constant in N m2 kg-2'
     print M, ' is the mass of the planet in kg'
     print mu, ' is the standard gravitational parameter'
-    
-def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_periapsis = 0, xbounds = (-100, 100) , ybounds = (-100, 100)):
-    """
-    Graphs an elliptical orbit and a spherical planetary body from semi-major axis, eccentricity, and the argument of periapsis
-    """
-    #calculate the argument of periapsis in radians
-    arg_peri_rad = math.radians(arg_periapsis)
-    
-    #compute the major axis from the distance between the apoapsis and the periapsis
-    orbit_majaxis = semi_majaxis * 2
-    
-    #compute the distance between the foci
-    foci_distance = orbit_majaxis * eccentricity
-    
-    #compute the locations of the orbit foci
-    orbit_focus1 = (0, 0)
-    orbit_focus2 = (foci_distance * math.cos(arg_peri_rad), foci_distance * math.sin(arg_peri_rad))
-        
-    #compute the minor axis of the orbit
-    orbit_minaxis = math.sqrt(orbit_majaxis**2 - foci_distance**2)
-    
-    #compute the center of the orbit
-    orbit_center = (orbit_focus2[0]/2, orbit_focus2[1]/2)
-    
-    #print the center for debugging
-    
-    #graph the ellipse
-    orbit = Ellipse(orbit_center, orbit_majaxis, orbit_minaxis, angle = arg_periapsis, fill = False)
-    
-    #instantiate the graph, set the aspect ratio to equal, add the celestial body and the orbit, and set the bounds of the graph
-    fig = plt.figure()
-    ax = fig.gca()
-    ax.axis('equal')
-    ax.add_patch(Circle((0, 0), body_radius, color = 'g'))
-    ax.add_patch(orbit)
-    ax.set_xlim(xbounds[0], xbounds[1])
-    ax.set_ylim(ybounds[0], ybounds[1])
+    print body_radius, ' is the radius of', config_file.split('.')[0]
 
-def compute_orbital_properties(semi_majaxis, orbital_eccentricity, body_radius):
+def compute_orbital_properties(semi_majaxis, orbital_eccentricity, arg_P):
     """
     Computes many properties of an orbit based on the six orbital elements and properties of the planetary body
     """
@@ -80,7 +45,7 @@ def compute_orbital_properties(semi_majaxis, orbital_eccentricity, body_radius):
     compute_apsides()
     
     #graph the orbit
-    graph_orbit(body_radius, a, e, 0, (-2 * Ra, 2 * Ra), (-2 * Ra, 2 * Ra))
+    orbg.graph_orbit(body_radius, a, e, arg_P, (-2 * Ra, 2 * Ra), (-2 * Ra, 2 * Ra))
     
 def compute_std_grav_param():
     """
@@ -121,7 +86,11 @@ def compute_apsides():
     Va = math.sqrt((2 * mu * Rp) / (Ra * (Ra + Rp)))
     Vp = math.sqrt((2 * mu * Ra) / (Rp * (Ra + Rp)))
     
-    print 'The radius of the apoapsis is: ', Ra, ' m'
-    print 'The velocity at apoapsis is: ', Va, 'm/s'
-    print 'The radius of the periapsis is: ', Rp, ' m'
-    print 'The velocity at periapsis is: ', Vp, ' m/s'
+    #determine if the orbit will intersect the body
+    if(Rp <= body_radius):
+        print 'The orbit is too low! It will collide with the surface!'
+    else:
+        print 'The radius of the apoapsis is: ', Ra, ' m'
+        print 'The velocity at apoapsis is: ', Va, 'm/s'
+        print 'The radius of the periapsis is: ', Rp, ' m'
+        print 'The velocity at periapsis is: ', Vp, ' m/s'
