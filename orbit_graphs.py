@@ -18,10 +18,13 @@ def open_config(config_file):
     G = float(config_values[1])
     M = float(config_values[3])
     
+    #compute mu for the body's mass
+    compute_std_grav_param()
+    
     #print the values of the constants
     print G, ' is the gravitational constant in N m2 kg-2'
     print M, ' is the mass of the planet in kg'
-    
+    print mu, ' is the standard gravitational parameter'
     
 def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_periapsis = 0, xbounds = (-100, 100) , ybounds = (-100, 100)):
     """
@@ -69,9 +72,6 @@ def compute_orbital_properties(semi_majaxis, orbital_eccentricity, body_radius):
     global mu, a, e
     a = float(semi_majaxis)
     e = orbital_eccentricity
-    
-    #compute mu for the body's mass
-    compute_std_grav_param()
     
     #compute the orbital period
     compute_orbital_period(a)
