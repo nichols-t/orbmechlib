@@ -9,7 +9,7 @@ def open_config(config_file):
     #open the file with the specified name
     config = open(config_file, 'r')
     
-    #split the file into an array of values
+    #split the file into an array of values so we can take each value as a separate constant
     config_values = config.read().split(',')
     
     #declare the global constants and set them equal to the values in the config file
@@ -44,7 +44,7 @@ def compute_orbital_properties(semi_majaxis, orbital_eccentricity, arg_P):
     #compute the radii of the apoapsis and periapsis and the velocities at each
     compute_apsides()
     
-    #graph the orbit
+    #graph the orbit using the orbit_graphing function
     orbg.graph_orbit(body_radius, a, e, arg_P, (-2 * Ra, 2 * Ra), (-2 * Ra, 2 * Ra))
     
 def compute_std_grav_param():
@@ -86,7 +86,7 @@ def compute_apsides():
     Va = math.sqrt((2 * mu * Rp) / (Ra * (Ra + Rp)))
     Vp = math.sqrt((2 * mu * Ra) / (Rp * (Ra + Rp)))
     
-    #determine if the orbit will intersect the body
+    #determine if the orbit will intersect the body (which means periapsis is too low)
     if(Rp <= body_radius):
         print 'The orbit is too low! It will collide with the surface!'
     else:

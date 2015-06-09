@@ -6,27 +6,25 @@ def graph_orbit(body_radius = 10, semi_majaxis = 35, eccentricity = 0.1, arg_per
     """
     Graphs an elliptical orbit and a spherical planetary body from semi-major axis, eccentricity, and the argument of periapsis
     """
-    #calculate the argument of periapsis in radians
+    #calculate the argument of periapsis in radians to be used in trigonometry
     arg_peri_rad = math.radians(arg_periapsis)
     
-    #compute the major axis from the distance between the apoapsis and the periapsis
+    #compute the major axis from the distance between the apoapsis and the periapsis so we have the width for the Ellipse object
     orbit_majaxis = semi_majaxis * 2
     
-    #compute the distance between the foci
+    #compute the distance between the foci so we can calculate the height of the Ellipse object
     foci_distance = orbit_majaxis * eccentricity
     
-    #compute the locations of the orbit foci
+    #compute the locations of the orbit foci so we can calculate the orbit's center
     orbit_focus1 = (0, 0)
     orbit_focus2 = (foci_distance * math.cos(arg_peri_rad), foci_distance * math.sin(arg_peri_rad))
         
-    #compute the minor axis of the orbit
+    #compute the minor axis of the orbit: height of Ellipse
     orbit_minaxis = math.sqrt(orbit_majaxis**2 - foci_distance**2)
     
     #compute the center of the orbit
     orbit_center = (orbit_focus2[0]/2, orbit_focus2[1]/2)
-    
-    #print the center for debugging
-    
+        
     #graph the ellipse
     orbit = Ellipse(orbit_center, orbit_majaxis, orbit_minaxis, angle = arg_periapsis, fill = False)
     
